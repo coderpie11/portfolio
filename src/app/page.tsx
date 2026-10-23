@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { profile, heroMarqueeKeywords, featuredSkills, stats, experience, projects } from "@/lib/data";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Kishlay Choudhary | AI Engineer & Python Backend Developer | CoderPie",
+  path: "/",
+  description:
+    "Kishlay Choudhary is an AI Engineer and Python Backend Developer in Delhi. Explore CoderPie projects in RAG, LLM evaluation, multi-agent systems, and Python backend engineering.",
+});
 
 export default function HomePage() {
   const currentRole = {
