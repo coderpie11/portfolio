@@ -6,6 +6,7 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
+  alternates: { canonical: "/contact" },
   description:
     "Hire an AI engineer who both evaluates and builds. Immediate joiner, open to Python backend and AI/GenAI roles — Pan India + Remote.",
 };

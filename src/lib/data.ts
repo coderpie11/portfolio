@@ -49,9 +49,9 @@ export const profile = {
   location: "Delhi, India",
   hiringScope: "Delhi | Pan India + Remote",
   about:
-    "I'm an AI engineer based in Delhi, currently working as a Research Associate at Keywords Studios, where I run large-scale RLHF and human-in-the-loop evaluation on a frontier foundation LLM — tracing chain-of-thought reasoning, auditing multi-agent behavior, and hunting down the failure modes that separate a good model from a trustworthy one. Outside of work, I build the systems I evaluate: AdaptiveRAG, a production-grade hybrid retrieval pipeline benchmarked with real RAGAS scores, and FunnX.Ai, a multi-LLM chat platform. I graduated in Computer Science from MGM College in 2025, and I'm currently looking for my next role as a Python backend or AI/GenAI engineer — ideally one where I keep doing both: understanding how these systems fail, and building the ones that don't.",
+    "I'm an AI engineer based in Delhi. I previously worked as a Research Associate at Keywords Studios from August 2025 to August 2026, where I ran large-scale RLHF and human-in-the-loop evaluation on a frontier foundation LLM — tracing chain-of-thought reasoning, auditing multi-agent behavior, and hunting down the failure modes that separate a good model from a trustworthy one. Beyond that, I build AI systems myself: AdaptiveRAG, a production-grade hybrid retrieval pipeline benchmarked with real RAGAS scores, and FunnX.Ai, a multi-LLM chat platform. I graduated in Computer Science from MGM College in 2025, and I'm currently looking for my next role as a Python backend or AI/GenAI engineer — ideally one where I keep doing both: understanding how these systems fail, and building the ones that don't.",
   aboutTeaser:
-    "AI engineer running large-scale RLHF/HITL evaluation on a frontier LLM by day — building the hybrid-retrieval and multi-LLM systems I evaluate by night.",
+    "AI engineer who ran large-scale RLHF/HITL evaluation on a frontier LLM — and now builds the hybrid-retrieval and multi-LLM systems.",
   contacts: {
     email: "kishlaychoudhary1233@gmail.com",
     emailHref: "mailto:kishlaychoudhary1233@gmail.com",
@@ -258,7 +258,7 @@ export const experiences: ExperienceEntryData[] = [
   },
 ];
 
-/** Primary/current role used by the Home highlight. */
+/** Most recent role, used by the Home highlight. */
 export const experience = {
   ...experiences[0],
   standout:

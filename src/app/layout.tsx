@@ -33,12 +33,39 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://coderpie.tech"),
   title: {
-    default: "Kishlay Choudhary — AI Engineer",
+    default: "Kishlay Choudhary | AI Engineer & Python Backend Developer | CoderPie",
     template: "%s | Kishlay Choudhary",
   },
   description:
-    "AI engineer who evaluates how AI reasons, then builds the systems that put it to work. RLHF/HITL evaluation on a frontier LLM by day, hybrid-RAG and multi-LLM systems by night.",
+    "Kishlay Choudhary is an AI Engineer and Python Backend Developer in Delhi. Explore CoderPie projects in RAG, LLM evaluation, multi-agent systems, and Python backend engineering.",
+  keywords: [
+    "Kishlay Choudhary",
+    "CoderPie",
+    "coderpie tech",
+    "AI Engineer",
+    "Python Backend Developer",
+    "RAG Engineer",
+    "LLM Engineer",
+  ],
+  authors: [{ name: "Kishlay Choudhary", url: "https://coderpie.tech" }],
+  creator: "Kishlay Choudhary",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "https://coderpie.tech",
+    siteName: "CoderPie",
+    title: "Kishlay Choudhary | AI Engineer & Python Backend Developer",
+    description:
+      "Portfolio of Kishlay Choudhary: AI Engineer and Python Backend Developer building RAG, LLM, and multi-agent systems.",
+  },
+  twitter: {
+    card: "summary",
+    title: "Kishlay Choudhary | AI Engineer & Python Backend Developer",
+    description:
+      "Portfolio of Kishlay Choudhary: AI Engineer and Python Backend Developer building RAG, LLM, and multi-agent systems.",
+  },
 };
 
 export const viewport: Viewport = {
@@ -48,12 +75,47 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        name: "Kishlay Choudhary",
+        jobTitle: "AI Engineer and Python Backend Developer",
+        url: "https://coderpie.tech",
+        image: "https://coderpie.tech/profile.jpg",
+        sameAs: [
+          "https://github.com/thecoderji",
+          "https://www.linkedin.com/in/kishlaychoudhary/",
+          "https://leetcode.com/u/thecoderji/",
+        ],
+        knowsAbout: [
+          "Artificial intelligence",
+          "Python backend development",
+          "Retrieval-augmented generation",
+          "Large language model evaluation",
+          "Multi-agent systems",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        name: "CoderPie",
+        alternateName: ["coderpie", "coderpie tech"],
+        url: "https://coderpie.tech",
+      },
+    ],
+  };
+
   return (
     <html
       lang="en"
       className={`${fraunces.variable} ${grotesk.variable} ${mono.variable}`}
     >
       <body className="font-body text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <MotionConfig reducedMotion="user">
           <Grain />
           <MagneticCursor />

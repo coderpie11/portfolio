@@ -7,8 +7,9 @@ import SkillsTabs from "@/components/SkillsTabs";
 
 export const metadata: Metadata = {
   title: "About",
+  alternates: { canonical: "/about" },
   description:
-    "AI engineer running large-scale RLHF/HITL evaluation on a frontier LLM — and building the hybrid-retrieval and multi-LLM systems he evaluates.",
+    "AI engineer with large-scale RLHF/HITL evaluation experience on a frontier LLM — and builder of the hybrid-retrieval and multi-LLM systems he makes.",
 };
 
 export default function AboutPage() {

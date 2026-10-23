@@ -5,6 +5,7 @@ import { RevealGroup, RevealItem } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Certifications",
+  alternates: { canonical: "/certifications" },
   description:
     "Certifications in generative and agentic AI, machine learning, FastAPI and Python — coursework behind the craft.",
 };

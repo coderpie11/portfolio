@@ -6,6 +6,7 @@ import ProjectRow from "@/components/ProjectRow";
 
 export const metadata: Metadata = {
   title: "Projects",
+  alternates: { canonical: "/projects" },
   description:
     "The systems I build: AdaptiveRAG — an adaptive hybrid-retrieval pipeline benchmarked with RAGAS — and FunnX.Ai, a multi-LLM chat platform.",
 };

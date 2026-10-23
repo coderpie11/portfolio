@@ -2,7 +2,6 @@ import Link from "next/link";
 import { profile, heroMarqueeKeywords, featuredSkills, stats, experience, projects } from "@/lib/data";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import Marquee from "@/components/Marquee";
-import Scribble from "@/components/Scribble";
 import CountUp from "@/components/CountUp";
 
 export default function HomePage() {
@@ -34,17 +33,16 @@ export default function HomePage() {
           <div className="relative">
             <h1 className="font-display leading-[0.9]">
               <Reveal delay={0.05}>
-                <span className="block text-[min(17vw,3.25rem)] font-black tracking-tight text-ink md:text-[8.5rem]">
+                <span className="block text-[min(13vw,3.25rem)] font-black tracking-tight text-ink md:text-[min(13.2vw,8.5rem)]">
                   {profile.firstName}
                 </span>
               </Reveal>
               <Reveal delay={0.15}>
-                <span className="block whitespace-nowrap text-[min(17vw,3.25rem)] font-black italic tracking-tight text-vermilion md:whitespace-normal md:text-[8.5rem]">
+                <span className="block whitespace-nowrap text-[min(13vw,3.25rem)] font-black italic tracking-tight text-vermilion md:whitespace-normal md:text-[min(13.2vw,8.5rem)]">
                   {profile.lastName}
                 </span>
               </Reveal>
             </h1>
-            <Scribble className="absolute -bottom-2 left-1 w-[68vw] max-w-[600px] md:w-[720px]" />
           </div>
 
           <Reveal delay={0.25}>
@@ -137,7 +135,7 @@ export default function HomePage() {
         {/* ---------- Experience highlight ---------- */}
         <Reveal className="mt-16 rounded-lg border-2 border-ink bg-paper-card p-6 shadow-card md:p-8">
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
-            Currently
+            Most recently
           </p>
           <h3 className="mt-3 font-display text-2xl font-bold md:text-3xl">
             {currentRole.role}{" "}

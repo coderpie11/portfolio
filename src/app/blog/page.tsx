@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog",
+  robots: { index: false, follow: false },
   description:
     "Notes on LLM evaluation, RAG pipelines and agentic systems — writing soon. Coming soon.",
 };
