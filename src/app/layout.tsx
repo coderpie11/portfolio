@@ -33,6 +33,12 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+// Google Search Console site verification.
+// Paste the content of the <meta name="google-site-verification"> tag that Google
+// gives you between the quotes, then push — CI deploys it automatically.
+// Leave "" to omit the tag entirely (current behaviour).
+const GOOGLE_SITE_VERIFICATION = "";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://coderpie.tech"),
   title: {
@@ -72,6 +78,9 @@ export const metadata: Metadata = {
   creator: "Kishlay Choudhary",
   publisher: "Kishlay Choudhary",
   category: "technology",
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION || undefined,
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
