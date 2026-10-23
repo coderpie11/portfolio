@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import Reveal from "@/components/Reveal";
 
@@ -16,11 +17,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return {
-    title: project ? project.name : "Project",
-    description: project?.teaser ?? "",
-    alternates: { canonical: project ? `/projects/${project.slug}` : "/projects" },
-  };
+  return pageMetadata({
+    title: project
+      ? `${project.name} | AI Engineering Project | Kishlay Choudhary`
+      : "Project | Kishlay Choudhary",
+    description: project?.teaser ?? "AI and Python backend engineering project by Kishlay Choudhary.",
+    path: project ? `/projects/${project.slug}` : "/projects",
+  });
 }
 
 export default async function ProjectDetailPage({
