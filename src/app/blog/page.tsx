@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  robots: { index: false, follow: false },
+export const metadata: Metadata = pageMetadata({
+  title: "Blog | CoderPie",
+  path: "/blog",
+  noIndex: true,
   description:
     "Notes on LLM evaluation, RAG pipelines and agentic systems — writing soon. Coming soon.",
-};
+});
 
 export default function BlogPage() {
   return (
