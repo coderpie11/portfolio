@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { profile } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  alternates: { canonical: "/contact" },
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Kishlay Choudhary | AI & Python Backend Engineer",
+  path: "/contact",
   description:
     "Hire an AI engineer who both evaluates and builds. Immediate joiner, open to Python backend and AI/GenAI roles — Pan India + Remote.",
-};
+});
 
 const channels = [
   { label: "Email", value: profile.contacts.email, href: profile.contacts.emailHref },
