@@ -5,6 +5,7 @@ import { RevealGroup, RevealItem } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Certifications",
+  alternates: { canonical: "/certifications" },
   description:
     "Certifications in generative and agentic AI, machine learning, FastAPI and Python — coursework behind the craft.",
 };
@@ -13,7 +14,7 @@ export default function CertificationsPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 pt-14 md:px-8 md:pt-20">
       <SectionHeading
-        num="05"
+        num="06"
         title="Certifications"
         kicker="Coursework & credentials"
       />

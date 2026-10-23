@@ -6,6 +6,7 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
+  alternates: { canonical: "/contact" },
   description:
     "Hire an AI engineer who both evaluates and builds. Immediate joiner, open to Python backend and AI/GenAI roles — Pan India + Remote.",
 };
@@ -14,15 +15,15 @@ const channels = [
   { label: "Email", value: profile.contacts.email, href: profile.contacts.emailHref },
   { label: "WhatsApp", value: "Chat on WhatsApp", href: profile.contacts.whatsappHref },
   { label: "Call", value: profile.contacts.phoneDisplay, href: profile.contacts.phoneHref },
-  { label: "GitHub", value: "thecoderji", href: profile.contacts.github },
-  { label: "LeetCode", value: "thecoderji", href: profile.contacts.leetcode },
+  { label: "GitHub", value: "coderpie11", href: profile.contacts.github },
+  { label: "LeetCode", value: "coderpie", href: profile.contacts.leetcode },
   { label: "LinkedIn", value: "kishlaychoudhary", href: profile.contacts.linkedin },
 ];
 
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 pt-14 md:px-8 md:pt-20">
-      <SectionHeading num="07" title="Contact" kicker="Let's build something" />
+      <SectionHeading num="08" title="Contact" kicker="Let's build something" />
 
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr]">
         {/* A. Direct channels */}

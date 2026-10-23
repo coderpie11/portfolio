@@ -15,7 +15,7 @@ interface Message {
 const GREETING: Message = {
   role: "assistant",
   content:
-    "Hi — I'm a little assistant about Kishlay. Ask me anything about his work, projects or skills. You can even paste a job description and I'll tell you how well he fits.",
+    "Hey — I'm Kishlay's AI twin. I can walk you through his Python + FastAPI backends, his adaptive-RAG and multi-LLM systems, and the year he spent evaluating agent workflows at Keywords Studios. Want to know if he fits a role? Paste the JD and I'll give you an honest read.",
 };
 
 export default function Chatbot() {
@@ -160,9 +160,6 @@ export default function Chatbot() {
             <div className="flex items-center justify-between border-b-2 border-ink bg-ink px-4 py-3">
               <p className="font-display text-sm font-bold italic text-paper">
                 Ask Kishlay<span className="text-vermilion">.</span>
-              </p>
-              <p className="font-mono text-[10px] uppercase tracking-wider text-paper/60">
-                Powered by Groq
               </p>
             </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog",
+  robots: { index: false, follow: false },
   description:
     "Notes on LLM evaluation, RAG pipelines and agentic systems — writing soon. Coming soon.",
 };
@@ -10,12 +11,11 @@ export default function BlogPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center px-5 pt-14 md:px-8">
       <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-cobalt">
-        06 — Blog
+        07 — Blog
       </p>
       <h1 className="sr-only">Blog</h1>
 
-      {/* Calm editorial "Coming Soon..." — gentle float + sequential dots;
-          grain intensifies on this page via the Grain component. */}
+      {/* Calm editorial "Coming Soon..." — gentle float + sequential dots. */}
       <div className="relative mt-10 text-center">
         <span
           aria-hidden="true"

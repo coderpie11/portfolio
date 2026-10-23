@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { projects } from "@/lib/data";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import Reveal from "@/components/Reveal";
@@ -8,25 +9,28 @@ export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const project = projects.find((p) => p.slug === params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
   return {
     title: project ? project.name : "Project",
     description: project?.teaser ?? "",
+    alternates: { canonical: project ? `/projects/${project.slug}` : "/projects" },
   };
 }
 
-export default function ProjectDetailPage({
+export default async function ProjectDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const project = projects.find((p) => p.slug === params.slug);
-  if (!project) return null;
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) notFound();
 
   return (
     <div className="mx-auto max-w-4xl px-5 pt-14 md:px-8 md:pt-20">

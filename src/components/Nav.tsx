@@ -5,15 +5,17 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ISTClock from "./ISTClock";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { href: "/", label: "Home", num: "01" },
   { href: "/about", label: "About", num: "02" },
-  { href: "/experience", label: "Experience", num: "03" },
-  { href: "/projects", label: "Projects", num: "04" },
-  { href: "/certifications", label: "Certifications", num: "05" },
-  { href: "/blog", label: "Blog", num: "06" },
-  { href: "/contact", label: "Contact", num: "07" },
+  { href: "/skills", label: "Skills", num: "03" },
+  { href: "/experience", label: "Experience", num: "04" },
+  { href: "/projects", label: "Projects", num: "05" },
+  { href: "/certifications", label: "Certifications", num: "06" },
+  { href: "/blog", label: "Blog", num: "07" },
+  { href: "/contact", label: "Contact", num: "08" },
 ];
 
 export default function Nav() {
@@ -48,7 +50,7 @@ export default function Nav() {
           </Link>
 
           {/* Desktop links */}
-          <ul className="hidden items-center gap-6 lg:flex">
+          <ul className="hidden items-center gap-5 lg:flex xl:gap-6">
             {links.map((l) => {
               const active =
                 l.href === "/" ? pathname === "/" : pathname?.startsWith(l.href);
@@ -74,23 +76,26 @@ export default function Nav() {
             })}
           </ul>
 
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="relative z-[60] flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden"
-          >
-            <motion.span
-              animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-              className="block h-[2px] w-6 bg-ink"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
-              className="block h-[2px] w-6 bg-ink"
-            />
-          </button>
+          {/* Right cluster: theme toggle (always) + mobile hamburger */}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="relative z-[60] flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden"
+            >
+              <motion.span
+                animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+                className="block h-[2px] w-6 bg-ink"
+              />
+              <motion.span
+                animate={open ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+                className="block h-[2px] w-6 bg-ink"
+              />
+            </button>
+          </div>
         </nav>
       </header>
 

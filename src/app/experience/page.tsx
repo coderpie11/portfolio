@@ -6,14 +6,15 @@ import { experiences } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Experience",
+  alternates: { canonical: "/experience" },
   description:
-    "Research Associate - AI at Keywords Studios and AI/ML Engineer Trainee at Frisson Devhub — large-scale RLHF/HITL evaluation, multi-agent auditing and hands-on model work.",
+    "Former Research Associate - AI at Keywords Studios (Aug 2025 – Aug 2026) and AI/ML Engineer Trainee at Frisson Devhub — large-scale RLHF/HITL evaluation, multi-agent auditing and hands-on model work.",
 };
 
 export default function ExperiencePage() {
   return (
     <div className="mx-auto max-w-6xl px-5 pt-14 md:px-8 md:pt-20">
-      <SectionHeading num="03" title="Experience" kicker="Where I've worked" />
+      <SectionHeading num="04" title="Experience" kicker="Where I've worked" />
       <div className="space-y-8">
         {experiences.map((entry, i) => (
           <Reveal key={`${entry.company}-${entry.period}`} delay={i * 0.08}>

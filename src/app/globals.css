@@ -3,10 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --paper: #f6f1e7;
-  --ink: #191512;
-  --vermilion: #d9442b;
-  --cobalt: #1e4fd8;
+  color-scheme: light;
+  /* RGB channel triplets so Tailwind can apply <alpha-value> opacity. */
+  --c-paper: 246 241 231;
+  --c-paper-deep: 239 232 218;
+  --c-paper-card: 251 248 241;
+  --c-ink: 25 21 18;
+  --c-ink-soft: 74 66 59;
+  --c-vermilion: 217 68 43;
+  --c-cobalt: 30 79 216;
+  --c-shadow: 25 21 18;
+}
+
+.dark {
+  color-scheme: dark;
+  /* Warm near-black surfaces keep the editorial paper character. */
+  --c-paper: 19 17 15;
+  --c-paper-deep: 30 26 22;
+  --c-paper-card: 27 23 20;
+  --c-ink: 243 237 225;
+  --c-ink-soft: 178 168 151;
+  --c-vermilion: 240 96 68;
+  --c-cobalt: 122 149 255;
+  --c-shadow: 0 0 0;
 }
 
 html {
@@ -14,10 +33,11 @@ html {
 }
 
 body {
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: rgb(var(--c-paper));
+  color: rgb(var(--c-ink));
   font-family: var(--font-grotesk), sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 /* Hide native cursor only on fine-pointer (desktop) devices where the
@@ -27,57 +47,6 @@ body {
   html.has-custom-cursor * {
     cursor: none !important;
   }
-}
-
-/* ---------- Animated film grain ---------- */
-.grain-overlay {
-  position: fixed;
-  inset: -100%;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
-  animation: grain-shift 9s steps(10) infinite;
-  will-change: transform;
-}
-
-@keyframes grain-shift {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-5%, -8%);
-  }
-  20% {
-    transform: translate(-12%, 4%);
-  }
-  30% {
-    transform: translate(6%, -14%);
-  }
-  40% {
-    transform: translate(-3%, 12%);
-  }
-  50% {
-    transform: translate(-10%, 6%);
-  }
-  60% {
-    transform: translate(12%, 0%);
-  }
-  70% {
-    transform: translate(0%, 10%);
-  }
-  80% {
-    transform: translate(8%, -6%);
-  }
-  90% {
-    transform: translate(-6%, -4%);
-  }
-}
-
-/* Blog page: slightly intensified grain */
-.grain-overlay.grain-strong {
-  opacity: 0.78;
 }
 
 /* ---------- Marquee ---------- */
@@ -149,15 +118,76 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--cobalt);
+  outline: 2px solid rgb(var(--c-cobalt));
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 /* ---------- Selection ---------- */
 ::selection {
-  background: var(--vermilion);
-  color: var(--paper);
+  background: rgb(var(--c-vermilion));
+  color: rgb(var(--c-paper));
+}
+
+/* ---------- First-visit intro splash ---------- */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--c-paper));
+}
+html.show-intro .intro-overlay {
+  display: flex;
+  animation: intro-in 0.45s ease both;
+}
+html.show-intro.intro-leaving .intro-overlay {
+  animation: intro-out 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.intro-mark {
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(4.5rem, 20vw, 10rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: rgb(var(--c-ink));
+}
+.intro-mark .dot {
+  color: rgb(var(--c-vermilion));
+}
+html.show-intro .intro-mark {
+  animation: intro-mark 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes intro-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes intro-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.08);
+  }
+}
+@keyframes intro-mark {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -165,7 +195,6 @@ textarea:focus-visible,
   html {
     scroll-behavior: auto;
   }
-  .grain-overlay,
   .marquee-track,
   .coming-soon-float,
   .coming-dot {

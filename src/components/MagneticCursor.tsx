@@ -79,8 +79,10 @@ export default function MagneticCursor() {
             width: hovering ? 46 : 30,
             height: hovering ? 46 : 30,
             opacity: hovering ? 0.9 : 0.45,
-            borderColor: hovering ? "#D9442B" : "rgba(25, 21, 18, 0.5)",
-            backgroundColor: hovering ? "rgba(217, 68, 43, 0.07)" : "transparent",
+            borderColor: hovering ? "#E8503A" : "rgba(130, 124, 116, 0.55)",
+            backgroundColor: hovering
+              ? "rgba(232, 80, 58, 0.08)"
+              : "rgba(232, 80, 58, 0)",
           }}
           transition={{ type: "spring", stiffness: 320, damping: 26 }}
         />

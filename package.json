@@ -6,21 +6,37 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy",
+    "deploy": "node scripts/deploy-with-secrets.mjs",
+    "deploy:secret": "node scripts/deploy-with-secrets.mjs --secret-only",
+    "qa:crawl": "node scripts/crawl-links.mjs"
   },
   "dependencies": {
+    "@vinext/cloudflare": "^1.1.1",
     "framer-motion": "^11.11.9",
-    "next": "^14.2.35",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-server-dom-webpack": "^19.3.1",
+    "vinext": "^1.2.1"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^2.0.0-beta.v.2",
     "@types/node": "^20.14.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-rsc": "^0.5.38",
     "autoprefixer": "^10.4.19",
+    "cf": "^1.0.0-beta.18",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4"
-  }
+    "typescript": "^5.5.4",
+    "vite": "^8.3.0"
+  },
+  "type": "module"
 }

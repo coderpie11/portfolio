@@ -3,12 +3,12 @@ import Image from "next/image";
 import { profile, education } from "@/lib/data";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import SkillsTabs from "@/components/SkillsTabs";
 
 export const metadata: Metadata = {
   title: "About",
+  alternates: { canonical: "/about" },
   description:
-    "AI engineer running large-scale RLHF/HITL evaluation on a frontier LLM — and building the hybrid-retrieval and multi-LLM systems he evaluates.",
+    "AI engineer with large-scale RLHF/HITL evaluation on a frontier LLM, builder of production adaptive-RAG and multi-LLM systems, and a FinTech-first Python / GenAI engineer.",
 };
 
 export default function AboutPage() {
@@ -43,16 +43,6 @@ export default function AboutPage() {
           </p>
         </Reveal>
       </div>
-
-      {/* Skills */}
-      <section className="mt-24">
-        <Reveal>
-          <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
-            Skills &amp; Tools
-          </p>
-        </Reveal>
-        <SkillsTabs />
-      </section>
 
       {/* Education block — small, at the end */}
       <section className="mt-24">

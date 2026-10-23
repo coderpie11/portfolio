@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { profile, heroMarqueeKeywords, featuredSkills, stats, experience, projects } from "@/lib/data";
+import { profile, heroMarqueeKeywords, featuredSkills, experience, experiences, projects, certifications, education } from "@/lib/data";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import Marquee from "@/components/Marquee";
-import Scribble from "@/components/Scribble";
-import CountUp from "@/components/CountUp";
+import IntroSplash from "@/components/IntroSplash";
+import SectionHeading from "@/components/SectionHeading";
+import SkillsTabs from "@/components/SkillsTabs";
+import ExperienceEntry from "@/components/ExperienceEntry";
+import ProjectRow from "@/components/ProjectRow";
+import ContactForm from "@/components/ContactForm";
 
 export default function HomePage() {
   const currentRole = {
@@ -14,6 +18,8 @@ export default function HomePage() {
 
   return (
     <>
+      <IntroSplash />
+
       {/* ---------- Hero ---------- */}
       <section className="relative overflow-hidden px-5 pb-20 pt-16 md:px-8 md:pt-24">
         {/* Background tilted marquee */}
@@ -25,26 +31,19 @@ export default function HomePage() {
         </div>
 
         <div className="relative mx-auto max-w-6xl">
-          <Reveal>
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-ink-soft">
-              Portfolio · Vol. 01 — {new Date().getFullYear()}
-            </p>
-          </Reveal>
-
           <div className="relative">
             <h1 className="font-display leading-[0.9]">
               <Reveal delay={0.05}>
-                <span className="block text-[min(17vw,3.25rem)] font-black tracking-tight text-ink md:text-[8.5rem]">
+                <span className="block text-[min(13vw,3.25rem)] font-black tracking-tight text-ink md:text-[min(13.2vw,8.5rem)]">
                   {profile.firstName}
                 </span>
               </Reveal>
               <Reveal delay={0.15}>
-                <span className="block whitespace-nowrap text-[min(17vw,3.25rem)] font-black italic tracking-tight text-vermilion md:whitespace-normal md:text-[8.5rem]">
+                <span className="block whitespace-nowrap text-[min(13vw,3.25rem)] font-black italic tracking-tight text-vermilion md:whitespace-normal md:text-[min(13.2vw,8.5rem)]">
                   {profile.lastName}
                 </span>
               </Reveal>
             </h1>
-            <Scribble className="absolute -bottom-2 left-1 w-[68vw] max-w-[600px] md:w-[720px]" />
           </div>
 
           <Reveal delay={0.25}>
@@ -92,7 +91,7 @@ export default function HomePage() {
         <Marquee items={heroMarqueeKeywords} />
       </div>
 
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
+      <div className="mx-auto hidden max-w-6xl px-5 md:px-8 lg:block">
         {/* ---------- About teaser ---------- */}
         <Reveal className="mt-20 border-t border-ink/15 pt-10">
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
@@ -126,7 +125,7 @@ export default function HomePage() {
             ))}
           </ul>
           <Link
-            href="/about#skills"
+            href="/skills"
             data-cursor="magnetic"
             className="mt-4 inline-block font-mono text-sm text-vermilion underline-offset-4 hover:underline"
           >
@@ -137,7 +136,7 @@ export default function HomePage() {
         {/* ---------- Experience highlight ---------- */}
         <Reveal className="mt-16 rounded-lg border-2 border-ink bg-paper-card p-6 shadow-card md:p-8">
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
-            Currently
+            Most recently
           </p>
           <h3 className="mt-3 font-display text-2xl font-bold md:text-3xl">
             {currentRole.role}{" "}
@@ -159,7 +158,7 @@ export default function HomePage() {
         <section className="mt-20">
           <Reveal>
             <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
-              04 — Featured Projects
+              05 — Featured Projects
             </p>
           </Reveal>
           <RevealGroup className="mt-6 grid gap-6 md:grid-cols-2">
@@ -193,15 +192,121 @@ export default function HomePage() {
             </Link>
           </Reveal>
         </section>
+      </div>
 
-        {/* ---------- Count-up stats ---------- */}
-        <RevealGroup className="mt-24 grid grid-cols-2 gap-10 border-t-2 border-ink pt-12 md:grid-cols-4">
-          {stats.map((s) => (
-            <RevealItem key={s.label}>
-              <CountUp stat={s} />
-            </RevealItem>
-          ))}
-        </RevealGroup>
+      {/* ---------- Mobile single-page: every section inline, no navigation ---------- */}
+      <div className="mx-auto max-w-6xl px-5 pb-10 lg:hidden">
+        {/* About + Education */}
+        <section className="mt-16">
+          <SectionHeading num="02" title="About" kicker="Tell me about yourself" />
+          <p className="font-display text-lg italic leading-relaxed text-ink">
+            {profile.about}
+          </p>
+          <div className="mt-6 rounded-lg border-2 border-ink bg-paper-card p-5 shadow-card">
+            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
+              Education
+            </p>
+            <h3 className="mt-2 font-display text-lg font-bold">
+              {education.institution}
+            </h3>
+            <p className="mt-1 text-sm text-ink-soft">{education.degree}</p>
+            <p className="mt-2 font-mono text-xs uppercase tracking-wider text-ink/50">
+              {education.location} · {education.period}
+            </p>
+          </div>
+        </section>
+
+        {/* Skills */}
+        <section className="mt-16">
+          <SectionHeading num="03" title="Skills" kicker="What I work with" />
+          <SkillsTabs />
+        </section>
+
+        {/* Experience */}
+        <section className="mt-16">
+          <SectionHeading num="04" title="Experience" kicker="Where I've worked" />
+          <div className="space-y-6">
+            {experiences.map((entry) => (
+              <ExperienceEntry
+                key={`${entry.company}-${entry.period}`}
+                entry={entry}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Projects */}
+        <section className="mt-16">
+          <SectionHeading num="05" title="Projects" kicker="Things I've built" />
+          <div className="space-y-6">
+            {projects.map((p, i) => (
+              <ProjectRow key={p.slug} project={p} index={i} />
+            ))}
+          </div>
+        </section>
+
+        {/* Certifications */}
+        <section className="mt-16">
+          <SectionHeading
+            num="06"
+            title="Certifications"
+            kicker="Coursework & credentials"
+          />
+          <div className="space-y-4">
+            {certifications.map((c, i) => (
+              <div
+                key={c.title}
+                className="rounded-lg border-2 border-ink bg-paper-card p-5 shadow-card"
+              >
+                <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cobalt">
+                  Certificate {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 font-display text-lg font-bold italic leading-snug">
+                  {c.title}
+                </h3>
+                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-ink-soft">
+                  {c.issuer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section className="mt-16">
+          <SectionHeading num="08" title="Contact" kicker="Let's build something" />
+          <div className="divide-y divide-ink/15 border-y-2 border-ink">
+            {[
+              { label: "Email", value: profile.contacts.email, href: profile.contacts.emailHref },
+              { label: "WhatsApp", value: "Chat on WhatsApp", href: profile.contacts.whatsappHref },
+              { label: "Call", value: profile.contacts.phoneDisplay, href: profile.contacts.phoneHref },
+              { label: "GitHub", value: "coderpie11", href: profile.contacts.github },
+              { label: "LeetCode", value: "coderpie", href: profile.contacts.leetcode },
+              { label: "LinkedIn", value: "kishlaychoudhary", href: profile.contacts.linkedin },
+            ].map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="flex items-baseline justify-between py-3.5"
+              >
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+                  {c.label}
+                </span>
+                <span className="text-sm font-medium">{c.value}</span>
+              </a>
+            ))}
+          </div>
+          <div className="mt-8 rounded-lg border-2 border-ink bg-paper-card p-5 shadow-card">
+            <h3 className="font-display text-xl font-bold italic">
+              Send a message
+            </h3>
+            <div className="mt-4">
+              <ContactForm />
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );

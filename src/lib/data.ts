@@ -31,14 +31,6 @@ export interface Certification {
   url?: string;
 }
 
-export interface Stat {
-  value: number;
-  display: string;
-  suffix: string;
-  decimals: number;
-  label: string;
-}
-
 export const profile = {
   firstName: "KISHLAY",
   lastName: "CHOUDHARY",
@@ -49,17 +41,17 @@ export const profile = {
   location: "Delhi, India",
   hiringScope: "Delhi | Pan India + Remote",
   about:
-    "I'm an AI engineer based in Delhi, currently working as a Research Associate at Keywords Studios, where I run large-scale RLHF and human-in-the-loop evaluation on a frontier foundation LLM — tracing chain-of-thought reasoning, auditing multi-agent behavior, and hunting down the failure modes that separate a good model from a trustworthy one. Outside of work, I build the systems I evaluate: AdaptiveRAG, a production-grade hybrid retrieval pipeline benchmarked with real RAGAS scores, and FunnX.Ai, a multi-LLM chat platform. I graduated in Computer Science from MGM College in 2025, and I'm currently looking for my next role as a Python backend or AI/GenAI engineer — ideally one where I keep doing both: understanding how these systems fail, and building the ones that don't.",
+    "I’m Kishlay, a Python and AI engineer from Delhi, and I like building the backend behind a smart model: the part that has to be fast, reliable and never fall over. Day to day that means Python, FastAPI and REST APIs, with LangChain, LangGraph, RAG and agents on the GenAI side, and Qdrant, Redis, PostgreSQL and Docker holding it together. I’ve put that into AdaptiveRAG, a FastAPI app that reads each question and picks the right retrieval route, with a Redis semantic cache and streaming answers, and FunnX.Ai, a chat platform that puts Gemini and DeepSeek head to head in real time. Before this, I spent a year as a Research Associate at Keywords Studios, evaluating multi-agent LLM workflows on two very different models, Amazon’s Nova on AWS and an LLM for Mecka AI’s humanoid robots, which taught me exactly where models break and how to build around it. FinTech is where I’d most love to work, because fast, precise systems are my kind of problem, but I pick up new domains quickly and enjoy doing it. I’m open to Python Backend, Python Developer and AI/GenAI Engineer roles.",
   aboutTeaser:
-    "AI engineer running large-scale RLHF/HITL evaluation on a frontier LLM by day — building the hybrid-retrieval and multi-LLM systems I evaluate by night.",
+    "Python + AI engineer from Delhi who builds the fast, reliable backend behind smart models — FastAPI, RAG and agents — and would most love to work in FinTech.",
   contacts: {
     email: "kishlaychoudhary1233@gmail.com",
     emailHref: "mailto:kishlaychoudhary1233@gmail.com",
     whatsappHref: "https://wa.me/919990687453",
     phoneHref: "tel:+919990687453",
     phoneDisplay: "+91 99906 87453",
-    github: "https://github.com/thecoderji",
-    leetcode: "https://leetcode.com/u/thecoderji/",
+    github: "https://github.com/coderpie11",
+    leetcode: "https://leetcode.com/u/coderpie/",
     linkedin: "https://www.linkedin.com/in/kishlaychoudhary/",
   },
   resumePath: "/resume.pdf",
@@ -77,13 +69,6 @@ export const heroMarqueeKeywords = [
 
 export const footerMarqueeText = "Available for roles · Immediate Joiner";
 
-export const stats: Stat[] = [
-  { value: 120, display: "120+", suffix: "+", decimals: 0, label: "Daily Eval Cycles" },
-  { value: 0.91, display: "0.91", suffix: "", decimals: 2, label: "RAGAS Faithfulness Score" },
-  { value: 10, display: "10M", suffix: "M", decimals: 0, label: "Token Context Evaluated" },
-  { value: 2, display: "2", suffix: "", decimals: 0, label: "AI Systems Shipped" },
-];
-
 export const skillCategories: SkillCategory[] = [
   {
     name: "Languages & Backend",
@@ -97,6 +82,7 @@ export const skillCategories: SkillCategory[] = [
       "REST APIs",
       "JSON",
       "SSE Streaming",
+      "Object-Oriented Programming (OOP)",
       "Gunicorn",
     ],
   },
@@ -129,6 +115,18 @@ export const skillCategories: SkillCategory[] = [
       "HITL",
       "MCP",
       "RAGAS",
+    ],
+  },
+  {
+    name: "FinTech & Domains",
+    skills: [
+      "Financial Technology (FinTech)",
+      "Stock Market & Trading",
+      "IPO Analysis",
+      "Payment Systems",
+      "Market Data Pipelines",
+      "Portfolio & Risk Analytics",
+      "Algorithmic Trading Concepts",
     ],
   },
   {
@@ -175,8 +173,8 @@ export const featuredSkills = [
   "FastAPI",
   "RAG Pipelines",
   "RLHF",
-  "Qdrant",
-  "LangChain",
+  "Agentic AI",
+  "FinTech",
 ];
 
 export interface ExperienceEntryData {
@@ -258,7 +256,7 @@ export const experiences: ExperienceEntryData[] = [
   },
 ];
 
-/** Primary/current role used by the Home highlight. */
+/** Most recent role, used by the Home highlight. */
 export const experience = {
   ...experiences[0],
   standout:
@@ -277,7 +275,7 @@ export const projects: Project[] = [
     slug: "adaptive-rag",
     name: "AdaptiveRAG",
     teaser:
-      "An adaptive RAG system that classifies query complexity in real time and routes to a hybrid dense+sparse retrieval pipeline — 0.91 RAGAS faithfulness score.",
+      "Adaptive retrieval that reads each query, routes it to the right pipeline, and answers with the right sources — hybrid dense + sparse search, reranking and a semantic cache, tuned for accuracy and speed.",
     stack: [
       "Python",
       "FastAPI",
@@ -304,7 +302,7 @@ export const projects: Project[] = [
     slug: "funnx-ai",
     name: "FunnX.Ai",
     teaser:
-      "A multi-LLM chat platform unifying Gemini and DeepSeek with a real-time 'Try Both' side-by-side comparison mode.",
+      "One workspace for multiple LLMs — Gemini and DeepSeek behind a single backend, with real-time side-by-side 'Try Both' comparison and instant mid-conversation model switching.",
     stack: [
       "Python",
       "Flask",
@@ -344,11 +342,11 @@ export function buildChatbotContext(): string {
   const expSections = experiences
     .map(
       (e) =>
-        `— ${e.role} at ${e.company}${e.type ? ` (${e.type})` : ""} (${e.period}, ${e.location}):\n${e.bullets.map((b, i) => `  ${i + 1}. ${b.text}`).join("\n")}`
+        `— ${e.role} at ${e.company}${e.type ? ` (${e.type})` : ""} (${e.period}, ${e.location}):\n${e.bullets.slice(0, 6).map((b, i) => `  ${i + 1}. ${b.text}`).join("\n")}`
     )
     .join("\n\n");
   const projectLines = projects
-    .map((p) => `${p.name} — ${p.teaser}\nStack: ${p.stack.join(", ")}\n${p.bullets.map((b) => `• ${b}`).join("\n")}`)
+    .map((p) => `${p.name} — ${p.teaser}\nStack: ${p.stack.join(", ")}\n${p.bullets.slice(0, 4).map((b) => `• ${b}`).join("\n")}`)
     .join("\n\n");
   const certLines = certifications.map((c) => `${c.title} — ${c.issuer}`).join("\n");
 
@@ -359,6 +357,9 @@ ABOUT:
 ${profile.about}
 
 LOCATION: ${profile.location}. Availability: ${profile.availability}.
+TARGET ROLES: Python Backend Engineer · AI / Generative AI Engineer · Agentic AI Engineer.
+FAVOURITE DOMAIN: FinTech — he is passionate about financial markets (equities, IPOs, trading) and about building reliable, low-latency financial systems, and would love a FinTech + AI role, while remaining genuinely comfortable working across any domain.
+LINKS: GitHub ${profile.contacts.github} · LinkedIn ${profile.contacts.linkedin} · LeetCode ${profile.contacts.leetcode} · Portfolio https://coderpie.tech
 
 EXPERIENCE:
 ${expSections}

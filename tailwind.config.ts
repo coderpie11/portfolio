@@ -2,20 +2,21 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         paper: {
-          DEFAULT: "#F6F1E7",
-          deep: "#EFE8DA",
-          card: "#FBF8F1",
+          DEFAULT: "rgb(var(--c-paper) / <alpha-value>)",
+          deep: "rgb(var(--c-paper-deep) / <alpha-value>)",
+          card: "rgb(var(--c-paper-card) / <alpha-value>)",
         },
         ink: {
-          DEFAULT: "#191512",
-          soft: "#4A423B",
+          DEFAULT: "rgb(var(--c-ink) / <alpha-value>)",
+          soft: "rgb(var(--c-ink-soft) / <alpha-value>)",
         },
-        vermilion: "#D9442B",
-        cobalt: "#1E4FD8",
+        vermilion: "rgb(var(--c-vermilion) / <alpha-value>)",
+        cobalt: "rgb(var(--c-cobalt) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "serif"],
@@ -23,8 +24,8 @@ const config: Config = {
         mono: ["var(--font-mono)", "monospace"],
       },
       boxShadow: {
-        card: "4px 4px 0 0 rgba(25, 21, 18, 0.9)",
-        "card-sm": "2px 2px 0 0 rgba(25, 21, 18, 0.9)",
+        card: "4px 4px 0 0 rgb(var(--c-shadow) / 0.9)",
+        "card-sm": "2px 2px 0 0 rgb(var(--c-shadow) / 0.9)",
       },
     },
   },

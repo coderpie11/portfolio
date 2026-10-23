@@ -13,10 +13,11 @@ export default function ContactShortcut() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() !== "h" || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       const tag = target?.tagName?.toLowerCase();
       if (tag === "input" || tag === "textarea" || target?.isContentEditable) return;
+      if (!e.key || e.key.toLowerCase() !== "h") return;
       if (pathname === "/contact") return;
       router.push("/contact");
     };

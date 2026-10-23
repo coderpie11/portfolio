@@ -1,8 +1,9 @@
 "use client";
 
 /**
- * Expandable project row for the /projects ledger — plus icon reveals the
- * full bullet breakdown inline; the title links to the detail page.
+ * Expandable project card for the /projects grid — plus icon reveals the
+ * full bullet breakdown inline; the title links to the detail page. Card
+ * styling mirrors the Experience entries for a consistent, boxed look.
  */
 import { useState } from "react";
 import Link from "next/link";
@@ -19,8 +20,8 @@ export default function ProjectRow({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="py-8 transition-colors hover:bg-paper-card md:px-4 md:py-10">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_1fr_auto] md:gap-8">
+    <div className="rounded-lg border-2 border-ink bg-paper-card shadow-card">
+      <div className="grid grid-cols-1 gap-3 p-6 md:grid-cols-[auto_1fr_auto] md:gap-6 md:p-8">
         <div className="flex items-center gap-4 md:block">
           <span className="font-display text-4xl font-black italic text-ink/15 md:mt-1 md:text-5xl">
             {String(index + 1).padStart(2, "0")}
@@ -82,7 +83,7 @@ export default function ProjectRow({
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="ml-0 mt-6 border-l-2 border-cobalt/40 pl-5 md:ml-[4.5rem] md:pl-7">
+            <div className="mx-6 mb-6 mt-1 border-t border-ink/15 pt-6 md:mx-8">
               <ol className="space-y-4">
                 {project.bullets.map((b, i) => (
                   <motion.li
