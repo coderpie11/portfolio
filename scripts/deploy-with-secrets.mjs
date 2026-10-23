@@ -101,9 +101,8 @@ if (!workerName) {
   process.exit(1);
 }
 
-// The `cf` bin lives in the project's node_modules/.bin — resolve it so we do
-// not depend on a global install.
-const CF_BIN = resolve(ROOT, "node_modules", ".bin", process.platform === "win32" ? "cf.cmd" : "cf");
+// The `cf` CLI is invoked via `npx cf` so we do not depend on a global install
+// and avoid Windows cmd mishandling the project path (it contains spaces).
 
 function run(cmd, cmdArgs, { inherit = true } = {}) {
   const res = spawnSync(cmd, cmdArgs, {
@@ -131,7 +130,10 @@ if (!SECRET_ONLY) {
 // We pass the value via spawn args (no shell interpolation, never logged). The
 // cf CLI stores it server-side as a secret_text binding.
 console.log(`▸ Setting GROQ_API_KEY secret on Worker "${workerName}"…`);
-const secretRes = run(CF_BIN, [
+// Invoke via `npx cf` (not the absolute .cmd path) to avoid Windows cmd
+// truncating the project path at the space in "Portfolio 2 Quoder".
+const secretRes = run("npx", [
+  "cf",
   "workers",
   "secrets",
   "update",
