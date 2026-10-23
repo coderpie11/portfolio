@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { projects } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import ProjectRow from "@/components/ProjectRow";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  alternates: { canonical: "/projects" },
+export const metadata: Metadata = pageMetadata({
+  title: "AI & Python Backend Projects | Kishlay Choudhary",
+  path: "/projects",
   description:
     "The systems I build: AdaptiveRAG — an adaptive hybrid-retrieval pipeline benchmarked with RAGAS — and FunnX.Ai, a multi-LLM chat platform.",
-};
+});
 
 export default function ProjectsPage() {
   return (
