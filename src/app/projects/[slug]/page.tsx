@@ -35,8 +35,29 @@ export default async function ProjectDetailPage({
   const project = projects.find((p) => p.slug === slug);
   if (!project) notFound();
 
+  const projectStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.name,
+    description: project.teaser,
+    url: `https://coderpie.tech/projects/${project.slug}`,
+    creator: {
+      "@type": "Person",
+      name: "Kishlay Choudhary",
+      url: "https://coderpie.tech",
+    },
+    keywords: project.stack.join(", "),
+    genre: "Software project",
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-5 pt-14 md:px-8 md:pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(projectStructuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <Reveal>
         <Link
           href="/projects"
