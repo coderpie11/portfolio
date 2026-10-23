@@ -17,8 +17,55 @@ const MAX_CONTENT_LEN = 4000; // clamp any single message to protect the context
 // unavailable or rate-limited. A 404 (model_not_found) or 429 moves to the next.
 const MODEL_CANDIDATES = ["openai/gpt-oss-20b", "openai/gpt-oss-120b"];
 
+// --- Best-effort rate limiter (per-isolate, no external storage) ---
+// Cloudflare runs many isolates, so this is a flood damper rather than a strict
+// global counter, but it reliably stops one client hammering the endpoint and
+// burning the Groq free-tier quota. Limits are generous so real visitors never
+// hit them; only abusive/scripted flooding trips the 429.
+const RATE_WINDOW_MS = 60_000; // 60s sliding window
+const RATE_MAX_REQUESTS = 20; // per client IP per window
+const rateBuckets = new Map<string, number[]>();
+
+function clientKey(req: Request): string {
+  return (
+    req.headers.get("cf-connecting-ip") ||
+    req.headers.get("x-real-ip") ||
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(req: Request): { limited: boolean; retryAfterSec: number } {
+  const now = Date.now();
+  const key = clientKey(req);
+  const hits = (rateBuckets.get(key) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  const limited = hits.length >= RATE_MAX_REQUESTS;
+  if (!limited) hits.push(now);
+  rateBuckets.set(key, hits);
+  // Opportunistic cleanup so the map can't grow unbounded on a long-lived isolate.
+  if (rateBuckets.size > 5000) {
+    rateBuckets.forEach((v, k) => {
+      if (!v.length || now - v[v.length - 1] > RATE_WINDOW_MS) rateBuckets.delete(k);
+    });
+  }
+  const oldest = hits[0] ?? now - RATE_WINDOW_MS;
+  const retryAfterSec = Math.max(1, Math.ceil((RATE_WINDOW_MS - (now - oldest)) / 1000));
+  return { limited, retryAfterSec };
+}
+
 export async function POST(req: Request) {
   try {
+    const rl = checkRateLimit(req);
+    if (rl.limited) {
+      return NextResponse.json(
+        {
+          error:
+            "You're sending messages a little too fast — please wait a moment and try again.",
+        },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+      );
+    }
+
     let body: { messages?: ChatMessage[] };
     try {
       body = (await req.json()) as { messages?: ChatMessage[] };
