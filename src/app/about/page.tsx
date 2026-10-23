@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { profile, education } from "@/lib/data";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import SkillsTabs from "@/components/SkillsTabs";
 
-export const metadata: Metadata = {
-  title: "About",
-  alternates: { canonical: "/about" },
+export const metadata: Metadata = pageMetadata({
+  title: "About Kishlay Choudhary | AI Engineer",
+  path: "/about",
   description:
     "AI engineer with large-scale RLHF/HITL evaluation experience on a frontier LLM — and builder of the hybrid-retrieval and multi-LLM systems he makes.",
-};
+});
 
 export default function AboutPage() {
   return (
