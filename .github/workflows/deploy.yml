@@ -19,10 +19,6 @@ concurrency:
 permissions:
   contents: read
 
-# Surfaces runs in the "production" environment (enable required reviewers here
-# in repo settings if you want manual approval before going live).
-environment: production
-
 jobs:
   deploy:
     name: Build & deploy
