@@ -20,6 +20,9 @@ export default defineConfig({
       ASSETS: bindings.assets(),
       // Cloudflare Images binding (edge image optimization) — matches prod.
       IMAGES: bindings.images(),
+      // Global rate-limit store for /api/chat. KV is shared across every Worker
+      // isolate & edge location, so the request counter is real (in-memory is not).
+      RATE_LIMIT: bindings.kv({ id: "5c78c29e616b49b2b93af4a445305d8f" }),
       // Groq key for the AI chatbot. Resolved from `.dev.vars` locally and from
       // the Cloudflare secret (GROQ_API_KEY) in production — never committed.
       GROQ_API_KEY: bindings.secret(),

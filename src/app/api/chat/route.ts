@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { buildChatbotContext, profile } from "@/lib/data";
+// "cloudflare:workers" is a runtime-only module. Its types are generated into
+// .cloudflare/types during build/dev; the @ts-ignore keeps the CI type-check
+// green on a clean checkout where that gitignored folder doesn't exist yet.
+// @ts-ignore
+import { env } from "cloudflare:workers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,17 +40,54 @@ function clientKey(req: Request): string {
   );
 }
 
-function checkRateLimit(req: Request): { limited: boolean; retryAfterSec: number } {
-  const now = Date.now();
+interface KvCounter {
+  get(key: string, opts?: { type?: string }): Promise<string | null>;
+  put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+}
+
+// Global, KV-backed fixed-window limiter. Workers runs many isolates across edge
+// locations, so an in-memory counter is meaningless under real traffic — KV is
+// shared, so the count is real. Falls back to a per-isolate in-memory window
+// only if the KV binding is missing (e.g. a very early local dev boot).
+async function checkRateLimit(
+  req: Request
+): Promise<{ limited: boolean; retryAfterSec: number }> {
   const key = clientKey(req);
+  const kv = (env as unknown as { RATE_LIMIT?: KvCounter }).RATE_LIMIT;
+
+  if (kv) {
+    const bucket = Math.floor(Date.now() / RATE_WINDOW_MS);
+    const k = `rl:${key}:${bucket}`;
+    let count = 0;
+    try {
+      const cur = await kv.get(k, { type: "text" });
+      count = cur ? Number.parseInt(cur, 10) || 0 : 0;
+    } catch {
+      count = 0;
+    }
+    if (count >= RATE_MAX_REQUESTS) {
+      const msToWindowEnd = RATE_WINDOW_MS - (Date.now() % RATE_WINDOW_MS);
+      return { limited: true, retryAfterSec: Math.max(1, Math.ceil(msToWindowEnd / 1000)) };
+    }
+    try {
+      await kv.put(k, String(count + 1), {
+        expirationTtl: Math.ceil(RATE_WINDOW_MS / 1000) + 60,
+      });
+    } catch {
+      // A KV write failure must never break the chatbot — let the request through.
+    }
+    return { limited: false, retryAfterSec: 0 };
+  }
+
+  // In-memory fallback (no KV binding available).
+  const now = Date.now();
   const hits = (rateBuckets.get(key) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
   const limited = hits.length >= RATE_MAX_REQUESTS;
   if (!limited) hits.push(now);
   rateBuckets.set(key, hits);
-  // Opportunistic cleanup so the map can't grow unbounded on a long-lived isolate.
   if (rateBuckets.size > 5000) {
-    rateBuckets.forEach((v, k) => {
-      if (!v.length || now - v[v.length - 1] > RATE_WINDOW_MS) rateBuckets.delete(k);
+    rateBuckets.forEach((v, kk) => {
+      if (!v.length || now - v[v.length - 1] > RATE_WINDOW_MS) rateBuckets.delete(kk);
     });
   }
   const oldest = hits[0] ?? now - RATE_WINDOW_MS;
@@ -55,7 +97,7 @@ function checkRateLimit(req: Request): { limited: boolean; retryAfterSec: number
 
 export async function POST(req: Request) {
   try {
-    const rl = checkRateLimit(req);
+    const rl = await checkRateLimit(req);
     if (rl.limited) {
       return NextResponse.json(
         {
