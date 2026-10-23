@@ -1,0 +1,68 @@
+name: Deploy to Cloudflare Workers
+
+# Fully automatic production deploy: every push to `main` builds the vinext
+# Worker, uploads it to Cloudflare (keeping the coderpie.tech custom domain +
+# bindings intact), and refreshes the GROQ_API_KEY chatbot secret.
+on:
+  push:
+    branches: [main]
+  # Allows a manual run from the Actions tab (re-deploy the latest main).
+  workflow_dispatch:
+
+# Never run two production deploys at once; queue instead of cancelling so a
+# half-finished upload is never interrupted.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+# Least-privilege: this job only needs to read the repo.
+permissions:
+  contents: read
+
+# Surfaces runs in the "production" environment (enable required reviewers here
+# in repo settings if you want manual approval before going live).
+environment: production
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+    env:
+      # Cloudflare auth for both `vinext-cloudflare deploy` and the `cf` CLI.
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # Read by scripts/deploy-with-secrets.mjs and pushed as a Worker secret.
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - name: Validate required secrets
+        run: |
+          missing=""
+          [ -z "$CLOUDFLARE_API_TOKEN" ] && missing="$missing CLOUDFLARE_API_TOKEN"
+          [ -z "$CLOUDFLARE_ACCOUNT_ID" ] && missing="$missing CLOUDFLARE_ACCOUNT_ID"
+          [ -z "$GROQ_API_KEY" ] && missing="$missing GROQ_API_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing required repository secret(s):${missing}"
+            echo "Add them under: repo Settings -> Secrets and variables -> Actions -> New repository secret."
+            echo "Then push to main (or re-run this workflow) and it will deploy automatically."
+            exit 1
+          fi
+          echo "All required secrets present."
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # The `cf` CLI requires Node >= 22.
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check (gate the deploy)
+        run: npx tsc --noEmit
+
+      - name: Build, deploy & wire GROQ_API_KEY secret
+        run: npm run deploy
