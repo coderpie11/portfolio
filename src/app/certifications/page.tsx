@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { certifications } from "@/lib/data";
 import SectionHeading from "@/components/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 
-export const metadata: Metadata = {
-  title: "Certifications",
-  alternates: { canonical: "/certifications" },
+export const metadata: Metadata = pageMetadata({
+  title: "AI, Machine Learning & Python Certifications | Kishlay Choudhary",
+  path: "/certifications",
   description:
     "Certifications in generative and agentic AI, machine learning, FastAPI and Python — coursework behind the craft.",
-};
+});
 
 export default function CertificationsPage() {
   return (
