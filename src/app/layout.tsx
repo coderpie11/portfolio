@@ -205,9 +205,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${fraunces.variable} ${grotesk.variable} ${mono.variable}`}
     >
-      <body className="font-body text-ink antialiased">
+      <body className="font-body text-ink antialiased" suppressHydrationWarning>
         {/* Apply persisted/system theme before first paint to avoid a flash. */}
         <script
           dangerouslySetInnerHTML={{
